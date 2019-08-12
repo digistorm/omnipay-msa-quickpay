@@ -1,0 +1,27 @@
+{
+    "name": "digistorm/omnipay-msa-quickpay",
+    "type": "library",
+    "description": "MSA (My Student Account) QuickPay API driver for the Omnipay payment processing library",
+    "keywords": [
+        "gateway",
+        "merchant",
+        "omnipay",
+        "pay",
+        "payment",
+        "msa",
+        "mystudentaccount",
+        "quickpay"
+    ],
+    "homepage": "https://github.com/digistorm/omnipay-msa-quickpay",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": { "Omnipay\\MsaQuickpay\\" : "src/" }
+    },
+    "require": {
+        "omnipay/common": "^3"
+    },
+    "require-dev": {
+        "omnipay/tests": "^3"
+    },
+    "prefer-stable": true
+}
