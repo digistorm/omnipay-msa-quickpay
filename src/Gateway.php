@@ -113,9 +113,9 @@ class Gateway extends AbstractGateway
     /**
      * @return string
      */
-    public function getCustomerId()
+    public function getClientId()
     {
-        return $this->getParameter('customerId');
+        return $this->getParameter('clientId');
     }
 
     /**
@@ -123,9 +123,9 @@ class Gateway extends AbstractGateway
      *
      * @return \Omnipay\MsaQuickpay\Gateway
      */
-    public function setCustomerId($value)
+    public function setClientId($value)
     {
-        return $this->setParameter('customerId', $value);
+        return $this->setParameter('clientId', $value);
     }
 
     /**
