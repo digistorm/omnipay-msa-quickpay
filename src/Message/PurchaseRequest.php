@@ -43,6 +43,7 @@ class PurchaseRequest extends AbstractRequest
             'CardExpiryMonth' => $card->getExpiryDate('m'),
             'CardExpiryYear' => $card->getExpiryDate('Y'),
             'CardCVN' => $card->getCvv(),
+            'ReceiptTemplateId' => $this->getReceiptTemplateId(),
         ];
 
         return $data;
@@ -72,6 +73,24 @@ class PurchaseRequest extends AbstractRequest
     public function setPaymentIdentifier($value)
     {
         return $this->setParameter('paymentIdentifier', $value);
+    }
+
+    /**
+     * @return integer
+     */
+    public function getReceiptTemplateId()
+    {
+        return $this->getParameter('receiptTemplateId');
+    }
+
+    /**
+     * @param string $value
+     *
+     * @return \Omnipay\MsaQuickpay\Message\AbstractRequest provides a fluent interface.
+     */
+    public function setReceiptTemplateId($value)
+    {
+        return $this->setParameter('receiptTemplateId', $value);
     }
 
     protected function getAuthToken()
