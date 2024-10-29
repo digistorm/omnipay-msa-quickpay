@@ -1,109 +1,79 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Omnipay\MsaQuickpay\Message;
+
+use Omnipay\Common\Message\ResponseInterface;
 
 /**
  * MsaQuickpay Abstract Request.
  */
 abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 {
+    abstract protected function getEndpoint(): string;
+
+    abstract protected function createResponse(string $data): ResponseInterface;
+
     /**
      * Live or Test Endpoint URL.
      */
-    public function getEndpointBase()
+    public function getEndpointBase(): string
     {
         return $this->getParameter('endpointBase');
     }
 
-    public function setEndpointBase($value)
+    public function setEndpointBase(string $value): self
     {
         return $this->setParameter('endpointBase', $value);
     }
 
-    /**
-     * @return string
-     */
-    public function getSiteId()
+    public function getSiteId(): string
     {
         return $this->getParameter('siteId');
     }
 
-    /**
-     * @param $value
-     *
-     * @return AbstractRequest
-     */
-    public function setSiteId($value)
+    public function setSiteId(string $value): self
     {
         return $this->setParameter('siteId', $value);
     }
 
-    /**
-     * @return string
-     */
-    public function getEntityId()
+    public function getEntityId(): string
     {
         return $this->getParameter('entityId');
     }
 
-    /**
-     * @param $value
-     *
-     * @return AbstractRequest
-     */
-    public function setEntityId($value)
+    public function setEntityId(string $value): self
     {
         return $this->setParameter('entityId', $value);
     }
 
-    /**
-     * @return string
-     */
-    public function getClientId()
+    public function getClientId(): string
     {
         return $this->getParameter('clientId');
     }
 
-    /**
-     * @param $value
-     *
-     * @return AbstractRequest
-     */
-    public function setClientId($value)
+    public function setClientId(string $value): self
     {
         return $this->setParameter('clientId', $value);
     }
 
-    /**
-     * @return string
-     */
-    public function getAuthKey()
+    public function getAuthKey(): string
     {
         return $this->getParameter('authKey');
     }
 
-    /**
-     * @param $value
-     *
-     * @return AbstractRequest
-     */
-    public function setAuthKey($value)
+    public function setAuthKey(string $value): self
     {
         return $this->setParameter('authKey', $value);
     }
-
-    abstract protected function getEndpoint();
-
-    abstract protected function createResponse($data);
 
     /**
      * Get HTTP Method.
      *
      * This is nearly always POST but can be over-ridden in sub classes.
-     *
-     * @return string
      */
-    public function getHttpMethod()
+    public function getHttpMethod(): string
     {
         return 'POST';
     }
@@ -111,13 +81,18 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     /**
      * {@inheritdoc}
      */
-    public function sendData($data)
+    public function sendData(mixed $data): ResponseInterface
     {
         $headers = [
             'Content-Type' => 'application/json; charset=utf-8',
         ];
         $body = json_encode($data);
-        $httpResponse = $this->httpClient->request($this->getHttpMethod(), $this->getEndpoint(), $headers, $body);
+        $httpResponse = $this->httpClient->request(
+            $this->getHttpMethod(),
+            $this->getEndpoint(),
+            $headers,
+            $body ?: null,
+        );
 
         return $this->createResponse(json_decode($httpResponse->getBody()->getContents(), true));
     }

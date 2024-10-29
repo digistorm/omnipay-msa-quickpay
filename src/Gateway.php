@@ -1,51 +1,53 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * MsaQuickpay Gateway.
  */
+
 namespace Omnipay\MsaQuickpay;
 
-use Omnipay\MsaQuickpay\Message\PurchaseRequest;
-use Omnipay\MsaQuickpay\Message\CreateTokenRequest;
 use Omnipay\Common\AbstractGateway;
+use Omnipay\Common\Message\AbstractRequest;
+use Omnipay\Common\Message\RequestInterface;
+use Omnipay\MsaQuickpay\Message\PurchaseRequest;
 
 /**
  * MsaQuickpay Gateway.
- *Z
- * @method \Omnipay\Common\Message\RequestInterface authorize(array $options = array())         (Optional method)
- *         Authorize an amount on the customers card
- * @method \Omnipay\Common\Message\RequestInterface completeAuthorize(array $options = array()) (Optional method)
- *         Handle return from off-site gateways after authorization
- * @method \Omnipay\Common\Message\RequestInterface capture(array $options = array())           (Optional method)
- *         Capture an amount you have previously authorized
- * @method \Omnipay\Common\Message\RequestInterface completePurchase(array $options = array())  (Optional method)
- *         Handle return from off-site gateways after purchase
- * @method \Omnipay\Common\Message\RequestInterface createToken(array $options = array())       (Optional method)
- *         Tokenize a credit card
- * @method \Omnipay\Common\Message\RequestInterface refund(array $options = array())            (Optional method)
- *         Refund an already processed transaction
- * @method \Omnipay\Common\Message\RequestInterface void(array $options = array())              (Optional method)
- *         Generally can only be called up to 24 hours after submitting a transaction
- * @method \Omnipay\Common\Message\RequestInterface createCard(array $options = array())        (Optional method)
- *         The returned response object includes a cardReference, which can be used for future transactions
- * @method \Omnipay\Common\Message\RequestInterface updateCard(array $options = array())        (Optional method)
- *         Update a stored card
- * @method \Omnipay\Common\Message\RequestInterface deleteCard(array $options = array())        (Optional method)
- *         Delete a stored card
+ *
+ * @method RequestInterface authorize(array $options = []) (Optional method)
+ * Authorize an amount on the customers card
+ * @method RequestInterface completeAuthorize(array $options = []) (Optional method)
+ * Handle return from off-site gateways after authorization
+ * @method RequestInterface capture(array $options = []) (Optional method)
+ * Capture an amount you have previously authorized
+ * @method RequestInterface completePurchase(array $options = []) (Optional method)
+ * Handle return from off-site gateways after purchase
+ * @method RequestInterface createToken(array $options = []) (Optional method)
+ * Tokenize a credit card
+ * @method RequestInterface refund(array $options = []) (Optional method)
+ * Refund an already processed transaction
+ * @method RequestInterface void(array $options = []) (Optional method)
+ * Generally can only be called up to 24 hours after submitting a transaction
+ * @method RequestInterface createCard(array $options = []) (Optional method)
+ * The returned response object includes a cardReference, which can be used for future transactions
+ * @method RequestInterface updateCard(array $options = []) (Optional method)
+ * Update a stored card
+ * @method RequestInterface deleteCard(array $options = []) (Optional method)
+ * Delete a stored card
  */
 class Gateway extends AbstractGateway
 {
-    public function getName()
+    public function getName(): string
     {
         return 'MsaQuickpay';
     }
 
     /**
      * Get the gateway parameters.
-     *
-     * @return array
      */
-    public function getDefaultParameters()
+    public function getDefaultParameters(): array
     {
         return [
             'endpointBase' => 'https://quickpay.mystudentaccount.com/api',
@@ -56,105 +58,61 @@ class Gateway extends AbstractGateway
         ];
     }
 
-    /**
-     * @return string
-     */
-    public function getEndpointBase()
+    public function getEndpointBase(): string
     {
         return $this->getParameter('endpointBase');
     }
 
-    /**
-     * @param $value
-     *
-     * @return \Omnipay\MsaQuickpay\Gateway
-     */
-    public function setEndpointBase($value)
+    public function setEndpointBase(string $value): self
     {
         return $this->setParameter('endpointBase', $value);
     }
 
-    /**
-     * @return string
-     */
-    public function getSiteId()
+    public function getSiteId(): string
     {
         return $this->getParameter('siteId');
     }
 
-    /**
-     * @param $value
-     *
-     * @return \Omnipay\MsaQuickpay\Gateway
-     */
-    public function setSiteId($value)
+    public function setSiteId(string $value): self
     {
         return $this->setParameter('siteId', $value);
     }
 
-    /**
-     * @return string
-     */
-    public function getEntityId()
+    public function getEntityId(): string
     {
         return $this->getParameter('entityId');
     }
 
-    /**
-     * @param $value
-     *
-     * @return \Omnipay\MsaQuickpay\Gateway
-     */
-    public function setEntityId($value)
+    public function setEntityId(string $value): self
     {
         return $this->setParameter('entityId', $value);
     }
 
-    /**
-     * @return string
-     */
-    public function getClientId()
+    public function getClientId(): string
     {
         return $this->getParameter('clientId');
     }
 
-    /**
-     * @param $value
-     *
-     * @return \Omnipay\MsaQuickpay\Gateway
-     */
-    public function setClientId($value)
+    public function setClientId(string $value): self
     {
         return $this->setParameter('clientId', $value);
     }
 
-    /**
-     * @return string
-     */
-    public function getAuthKey()
+    public function getAuthKey(): string
     {
         return $this->getParameter('authKey');
     }
 
-    /**
-     * @param $value
-     *
-     * @return \Omnipay\MsaQuickpay\Gateway
-     */
-    public function setAuthKey($value)
+    public function setAuthKey(string $value): self
     {
         return $this->setParameter('authKey', $value);
     }
 
     /**
      * Purchase request.
-     *
-     * @param array $parameters
-     *
-     * @return \Omnipay\MsaQuickpay\Message\PurchaseRequest|\Omnipay\Common\Message\AbstractRequest
      */
-    public function purchase(array $parameters = array())
+    public function purchase(array $options = []): AbstractRequest
     {
-        return $this->createRequest(PurchaseRequest::class, $parameters);
+        return $this->createRequest(PurchaseRequest::class, $options);
     }
 }

@@ -1,8 +1,8 @@
 <?php
 
-namespace Omnipay\MsaQuickpay\Message;
+declare(strict_types=1);
 
-use Omnipay\Common\Message\RequestInterface;
+namespace Omnipay\MsaQuickpay\Message;
 
 /**
  * MsaQuickpay Response.
@@ -15,10 +15,8 @@ abstract class AbstractResponse extends \Omnipay\Common\Message\AbstractResponse
 {
     /**
      * Is the transaction successful?
-     *
-     * @return bool
      */
-    public function isSuccessful()
+    public function isSuccessful(): bool
     {
         if (!isset($this->data['ResultCode'])) {
             return false;
@@ -31,31 +29,19 @@ abstract class AbstractResponse extends \Omnipay\Common\Message\AbstractResponse
      * Get the response/error message from the response.
      *
      * Returns null if the request was successful.
-     *
-     * @return string|null
      */
-    public function getMessage()
+    public function getMessage(): ?string
     {
-        if (isset($this->data['ResultMessage'])) {
-            return $this->data['ResultMessage'];
-        }
-
-        return null;
+        return $this->data['ResultMessage'] ?? null;
     }
 
     /**
      * Get the response/error code from the response.
      *
      * Returns null if the request was successful.
-     *
-     * @return string|null
      */
-    public function getCode()
+    public function getCode(): ?string
     {
-        if (isset($this->data['ResultCode'])) {
-            return $this->data['ResultCode'];
-        }
-
-        return null;
+        return $this->data['ResultCode'] ?? null;
     }
 }
