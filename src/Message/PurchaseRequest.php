@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Omnipay\MsaQuickpay\Message;
 
+use Omnipay\Common\Exception\InvalidCreditCardException;
 use Omnipay\Common\Exception\InvalidRequestException;
 
 /**
@@ -11,13 +14,10 @@ class PurchaseRequest extends AbstractRequest
 {
     /**
      * Get request data array to process a purchase.
-     *
-     * @return array|mixed
-     *
-     * @throws \Omnipay\Common\Exception\InvalidCreditCardException
-     * @throws \Omnipay\Common\Exception\InvalidRequestException
+     * @throws InvalidCreditCardException
+     * @throws InvalidRequestException
      */
-    public function getData()
+    public function getData(): array
     {
         $this->validate('amount', 'currency', 'paymentIdentifier');
 
@@ -29,7 +29,7 @@ class PurchaseRequest extends AbstractRequest
         $card = $this->getParameter('card');
         $card->validate();
 
-        $data = [
+        return [
             'SiteID' => $this->getSiteId(),
             'EntityID' => $this->getEntityId(),
             'ClientID' => $this->getClientId(),
@@ -45,65 +45,39 @@ class PurchaseRequest extends AbstractRequest
             'CardCVN' => $card->getCvv(),
             'ReceiptTemplateId' => $this->getReceiptTemplateId(),
         ];
-
-        return $data;
     }
 
-    /**
-     * @return string
-     */
-    public function getEndpoint()
+    public function getEndpoint(): string
     {
         return parent::getEndpointBase() . '/payment/process';
     }
 
-    /**
-     * @return integer
-     */
-    public function getPaymentIdentifier()
+    public function getPaymentIdentifier(): string
     {
         return $this->getParameter('paymentIdentifier');
     }
 
-    /**
-     * @param string $value
-     *
-     * @return \Omnipay\MsaQuickpay\Message\AbstractRequest provides a fluent interface.
-     */
-    public function setPaymentIdentifier($value)
+    public function setPaymentIdentifier(string $value): self
     {
         return $this->setParameter('paymentIdentifier', $value);
     }
 
-    /**
-     * @return integer
-     */
-    public function getReceiptTemplateId()
+    public function getReceiptTemplateId(): string
     {
         return $this->getParameter('receiptTemplateId');
     }
 
-    /**
-     * @param string $value
-     *
-     * @return \Omnipay\MsaQuickpay\Message\AbstractRequest provides a fluent interface.
-     */
-    public function setReceiptTemplateId($value)
+    public function setReceiptTemplateId(string $value): self
     {
         return $this->setParameter('receiptTemplateId', $value);
     }
 
-    protected function getAuthToken()
+    protected function getAuthToken(): string
     {
         return hash('sha256', $this->getAuthKey() . $this->getPaymentIdentifier());
     }
 
-    /**
-     * @param       $data
-     *
-     * @return \Omnipay\MsaQuickpay\Message\PurchaseResponse
-     */
-    protected function createResponse($data)
+    protected function createResponse(mixed $data): PurchaseResponse
     {
         return $this->response = new PurchaseResponse($this, $data);
     }
