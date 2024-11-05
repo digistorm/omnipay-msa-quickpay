@@ -52,7 +52,7 @@ class PurchaseRequest extends AbstractRequest
         return parent::getEndpointBase() . '/payment/process';
     }
 
-    public function getPaymentIdentifier(): string
+    public function getPaymentIdentifier(): ?string
     {
         return $this->getParameter('paymentIdentifier');
     }
@@ -62,7 +62,7 @@ class PurchaseRequest extends AbstractRequest
         return $this->setParameter('paymentIdentifier', $value);
     }
 
-    public function getReceiptTemplateId(): string
+    public function getReceiptTemplateId(): ?string
     {
         return $this->getParameter('receiptTemplateId');
     }
@@ -72,7 +72,7 @@ class PurchaseRequest extends AbstractRequest
         return $this->setParameter('receiptTemplateId', $value);
     }
 
-    protected function getAuthToken(): string
+    protected function getAuthToken(): ?string
     {
         return hash('sha256', $this->getAuthKey() . $this->getPaymentIdentifier());
     }

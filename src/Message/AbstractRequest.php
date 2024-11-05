@@ -18,7 +18,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     /**
      * Live or Test Endpoint URL.
      */
-    public function getEndpointBase(): string
+    public function getEndpointBase(): ?string
     {
         return $this->getParameter('endpointBase');
     }
@@ -28,7 +28,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         return $this->setParameter('endpointBase', $value);
     }
 
-    public function getSiteId(): string
+    public function getSiteId(): ?string
     {
         return $this->getParameter('siteId');
     }
@@ -38,7 +38,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         return $this->setParameter('siteId', $value);
     }
 
-    public function getEntityId(): string
+    public function getEntityId(): ?string
     {
         return $this->getParameter('entityId');
     }
@@ -48,7 +48,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         return $this->setParameter('entityId', $value);
     }
 
-    public function getClientId(): string
+    public function getClientId(): ?string
     {
         return $this->getParameter('clientId');
     }
@@ -58,7 +58,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         return $this->setParameter('clientId', $value);
     }
 
-    public function getAuthKey(): string
+    public function getAuthKey(): ?string
     {
         return $this->getParameter('authKey');
     }
